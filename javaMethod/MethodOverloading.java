@@ -1,6 +1,6 @@
 package javaMethod;
 
-public class MethodTest1 {
+public class MethodOverloading {
     public static void main(String[] args) {
 
         System.out.println(power(2,4));
