@@ -4,9 +4,9 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Minesweeper {
-    int row,column,size;
-    int[][] map;
-    int[][] board;
+    public int row,column,size;
+    public int[][] map;
+    public int[][] board;
 
     Random rand = new Random();
     Scanner scan = new Scanner(System.in);
@@ -34,7 +34,9 @@ public class Minesweeper {
                 if (map[rowNum][colNum] == -1){
                     board[rowNum][colNum] = -1;
                     print(board);
-                    System.out.println("GAME OVER");
+                    System.out.println("***************");
+                    System.out.println("** GAME OVER **");
+                    System.out.println("***************");
                     return;
                 }
                 else if (board[rowNum][colNum] == 0){

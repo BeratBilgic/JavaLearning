@@ -6,17 +6,17 @@ public class Login {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         String username,passworld;
-        System.out.println("kullanici adini giriniz");
+        System.out.println("enter username");
         username = scan.next();
-        System.out.println("şifrenizi giriniz");
+        System.out.println("enter your password");
         passworld = scan.next();
         if(username.equals("java") && passworld.equals("1234"))
         {
-            System.out.println("Giriş yapildi");
+            System.out.println("Signed in");
         }
         else
         {
-            System.out.println("giriş başarisiz");
+            System.out.println("sign in failed");
         }
         scan.close();
     }
