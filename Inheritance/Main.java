@@ -12,8 +12,10 @@ public class Main {
         System.out.println(o1.login());
         System.out.println(l1.login());
         System.out.println(ast1.login());*/
+        Employee e2 = new Lecturer("Tom","tom@gmail.com","03452342343","Computer Science" ,"task4","CS301","Doc."); //Polymorphism
+        System.out.println(e2.login());
 
-        Employee[] loginList= {e1,l1,ast1}; //Polymorphism
+        Employee[] loginList= {e1,l1,ast1}; 
         Employee.toList(loginList);
     }
 } 

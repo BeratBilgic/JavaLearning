@@ -8,6 +8,7 @@ public class Lecturer extends Academician {
         this.title = title;
     }
 
+    @Override
     public String login(){  //Metot Overriding
         return this.title + super.login();
     }
