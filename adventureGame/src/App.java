@@ -10,9 +10,7 @@ public class App {
             System.out.println("\nDo you want to play again <Y>es/<N>o");
             String dec = scan.nextLine();
             dec = dec.toUpperCase();
-            if (dec.equals("Y")) {
-                game.run();
-            }else{
+            if (!dec.equals("Y")) {
                 break;
             }
         }
