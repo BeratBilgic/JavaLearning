@@ -1,5 +1,3 @@
-package adventureGame;
-
 public class Help extends Location {
 
     Help(Player player) {

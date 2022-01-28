@@ -1,5 +1,3 @@
-package adventureGame;
-
 public abstract class Location {
     protected Player player;
     protected String name;

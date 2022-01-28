@@ -1,5 +1,3 @@
-package adventureGame;
-
 public class Inventory {
     private boolean water,food,firewood;
     private String wName,aName;

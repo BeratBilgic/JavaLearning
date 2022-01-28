@@ -1,5 +1,3 @@
-package adventureGame;
-
 public class Zombi extends Obstacle {
 
     Zombi() {

@@ -1,5 +1,3 @@
-package adventureGame;
-
 import java.util.Scanner;
 
 public class Game {
@@ -8,7 +6,7 @@ public class Game {
     Scanner scan = new Scanner(System.in);
 
     public void run(){
-        System.out.println("Welcome to adventure game");
+        System.out.println("\nWelcome to adventure game");
         System.out.print("Please enter your name : ");
         String playerName = scan.nextLine();
         Player player = new Player(playerName);

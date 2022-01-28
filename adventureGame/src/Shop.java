@@ -1,5 +1,3 @@
-package adventureGame;
-
 import java.util.Scanner;
 
 public class Shop extends SafeLoc {
@@ -81,7 +79,7 @@ public class Shop extends SafeLoc {
             System.out.println("Previous damage = "+ player.getDamage());
             System.out.println("Current damage = "+ player.getTotalDamage());
         }else{
-            System.out.println("Insufficient balance");
+            System.out.println("\nInsufficient balance");
         }
     }
 
@@ -130,7 +128,7 @@ public class Shop extends SafeLoc {
             System.out.println("Your money = " + player.getMoney());
             System.out.println("Blocked damage = " + block);
         }else{
-            System.out.println("Insufficient balance");
+            System.out.println("\nInsufficient balance");
         }
     }
 }

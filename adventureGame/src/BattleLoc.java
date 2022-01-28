@@ -1,5 +1,3 @@
-package adventureGame;
-
 import java.util.Scanner;
 
 public abstract class BattleLoc extends Location {

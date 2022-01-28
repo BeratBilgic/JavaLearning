@@ -1,5 +1,3 @@
-package adventureGame;
-
 import java.util.Random;
 
 public abstract class Obstacle {

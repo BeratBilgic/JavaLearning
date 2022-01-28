@@ -1,5 +1,3 @@
-package adventureGame;
-
 public class Cave extends BattleLoc {
 
     Cave(Player player) {

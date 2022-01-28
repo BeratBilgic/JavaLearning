@@ -1,5 +1,3 @@
-package adventureGame;
-
 import java.util.Scanner;
 
 public class SafeHouse extends SafeLoc {
