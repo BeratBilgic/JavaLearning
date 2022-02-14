@@ -22,7 +22,6 @@ public class Minesweeper implements MouseListener{
         }
         generateMine();
         updateCount();
-        //showMine();
         
         frame.setVisible(true);
     }
@@ -63,21 +62,11 @@ public class Minesweeper implements MouseListener{
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {
                 if (board[row][col].isMine()) {
-                    ImageIcon image = new ImageIcon(getClass().getResource("mine.png"));
-                    board[row][col].setIcon(image);
+                    board[row][col].setIcon(new ImageIcon("mine.png"));
+                    board[row][col].setEnabled(false);
                 }else{
                     board[row][col].setText(board[row][col].getCount()+"");
                     board[row][col].setEnabled(false);
-                }
-            }
-        }        
-    }
-
-    public void showMine() {
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
-                if (board[row][col].isMine()) {
-                    board[row][col].setIcon(new ImageIcon("mine.png"));
                 }
             }
         }        
