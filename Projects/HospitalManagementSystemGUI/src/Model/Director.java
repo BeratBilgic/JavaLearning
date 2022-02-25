@@ -15,7 +15,7 @@ public class Director extends User {
 	
 	public Director() {}
 
-	public ArrayList<User> getDoctorList(){
+	public ArrayList<User> getDoctorList() throws SQLException {
 		ArrayList<User> list = new ArrayList<>();
 		User obj;
 		try {
@@ -28,6 +28,7 @@ public class Director extends User {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return list;
 	}
 	
@@ -91,5 +92,48 @@ public class Director extends User {
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean addWorker(int user_id, int clinic_id) throws SQLException {
+		String query = "INSERT INTO worker(user_id, clinic_id) VALUES (?,?)";
+		boolean key = false;
+		int count = 0;
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT * FROM worker WHERE clinic_id=" + clinic_id + " AND user_id=" + user_id);
+			while(rs.next()) {
+				count++;
+			}
+			if(count == 0) {
+				preparedStatement = con.prepareStatement(query);
+				preparedStatement.setInt(1, user_id);
+				preparedStatement.setInt(2, clinic_id);
+				preparedStatement.executeUpdate();
+				key = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(key == true)
+			return true;
+		else
+			return false;
+	}
+	
+	public ArrayList<User> getClinicDoctorList(int clinic_id) throws SQLException {
+		ArrayList<User> list = new ArrayList<>();
+		User obj;
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT u.id,u.tcno,u.password,u.name,u.type FROM worker w LEFT JOIN user u ON w.user_id=u.id WHERE clinic_id= "+ clinic_id);
+			while(rs.next()) {
+				obj = new User(rs.getInt("id"),rs.getInt("type"),rs.getString("tcno"),rs.getString("name"),rs.getString("password"));
+				list.add(obj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }

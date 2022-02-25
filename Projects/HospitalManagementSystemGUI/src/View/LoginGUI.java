@@ -101,18 +101,18 @@ public class LoginGUI extends JFrame {
 		
 		JLabel TcNo_doc = new JLabel("T.C. Number : ");
 		TcNo_doc.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
-		TcNo_doc.setBounds(98, 36, 108, 20);
+		TcNo_doc.setBounds(102, 41, 108, 20);
 		doctor_panel.add(TcNo_doc);
 		
 		JLabel Password_doc = new JLabel("Password : ");
 		Password_doc.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
-		Password_doc.setBounds(121, 68, 88, 20);
+		Password_doc.setBounds(123, 73, 87, 20);
 		doctor_panel.add(Password_doc);
 		
 		TcNoField_doc = new JTextField();
 		TcNoField_doc.setFont(new Font("Book Antiqua", Font.PLAIN, 15));
 		TcNoField_doc.setColumns(10);
-		TcNoField_doc.setBounds(205, 30, 174, 26);
+		TcNoField_doc.setBounds(209, 35, 174, 26);
 		doctor_panel.add(TcNoField_doc);
 		
 		JButton btnSignIn_doc = new JButton("Sign in");
@@ -138,7 +138,17 @@ public class LoginGUI extends JFrame {
 									DirectorGUI directorGUI = new DirectorGUI(director);
 									directorGUI.setVisible(true);
 									dispose();
-									
+								}else if(rs.getInt("type") == 2) {
+									Doctor doctor = new Doctor();
+									doctor.setId(rs.getInt("id"));
+									doctor.setPassword("password");
+									doctor.setTcno(rs.getString("tcno"));
+									doctor.setName(rs.getString("name"));
+									doctor.setType(rs.getInt("type"));
+									System.out.println(doctor.getName());
+									DoctorGUI doctorGUI = new DoctorGUI(doctor);
+									doctorGUI.setVisible(true);
+									dispose();
 								}
 							}
 						}
@@ -148,11 +158,11 @@ public class LoginGUI extends JFrame {
 				}
 			}
 		});
-		btnSignIn_doc.setBounds(218, 113, 131, 35);
+		btnSignIn_doc.setBounds(222, 118, 131, 35);
 		doctor_panel.add(btnSignIn_doc);
 		
 		passField_doc = new JPasswordField();
-		passField_doc.setBounds(205, 62, 174, 33);
+		passField_doc.setBounds(209, 67, 174, 33);
 		doctor_panel.add(passField_doc);
 		
 	}

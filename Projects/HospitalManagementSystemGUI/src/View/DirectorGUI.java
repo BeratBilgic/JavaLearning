@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 public class DirectorGUI extends JFrame {
 
 	private JPanel contentPane;
-	static Director director = new Director();
+	private static Director director = new Director();
 	Clinic clinic = new Clinic();
 	private JTextField nameSur;
 	private JTextField tcno;
@@ -38,6 +38,9 @@ public class DirectorGUI extends JFrame {
 	private DefaultTableModel clinicModel = null;
 	private Object[] clinicData = null;
 	private JPopupMenu clinicMenu;
+	private DefaultTableModel workerModel = null;
+	private Object[] workerData = null;
+	private JTable table_worker;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -72,8 +75,8 @@ public class DirectorGUI extends JFrame {
 		
 		clinicModel = new DefaultTableModel();
 		Object[] colClinicName = new Object[2];
-		colDoctorName[0] = "ID";
-		colDoctorName[1] = "Clinic name";
+		colClinicName[0] = "ID";
+		colClinicName[1] = "Clinic name";
 		clinicModel.setColumnIdentifiers(colClinicName);
 		clinicData = new Object[2];
 		for(int i = 0; i < clinic.getClinicList().size(); i++) {
@@ -82,6 +85,14 @@ public class DirectorGUI extends JFrame {
 			clinicModel.addRow(clinicData);
 		}
 		
+		workerModel = new DefaultTableModel();
+		Object[] colWorker = new Object[2];
+		colWorker[0] = "ID";
+		colWorker[1] = "Name Surname";
+		workerModel.setColumnIdentifiers(colWorker);
+		workerData = new Object[2];
+		
+		setTitle("Hospital Management System");
 		setBackground(Color.LIGHT_GRAY);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,7 +103,7 @@ public class DirectorGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Welcome " + director.getName());
-		lblNewLabel.setBounds(86, 41, 224, 34);
+		lblNewLabel.setBounds(144, 15, 224, 34);
 		lblNewLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 17));
 		contentPane.add(lblNewLabel);
 		
@@ -104,11 +115,11 @@ public class DirectorGUI extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(22, 6, 51, 29);
+		btnNewButton.setBounds(22, 20, 51, 29);
 		contentPane.add(btnNewButton);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(22, 80, 710, 373);
+		tabbedPane.setBounds(22, 61, 710, 392);
 		contentPane.add(tabbedPane);
 		
 		JPanel doc_mang_panel = new JPanel();
@@ -248,7 +259,7 @@ public class DirectorGUI extends JFrame {
 		clinic_panel.setLayout(null);
 		
 		JScrollPane scrollClinic = new JScrollPane();
-		scrollClinic.setBounds(6, 6, 249, 315);
+		scrollClinic.setBounds(6, 6, 249, 334);
 		clinic_panel.add(scrollClinic);
 		
 		clinicMenu = new JPopupMenu();
@@ -314,12 +325,12 @@ public class DirectorGUI extends JFrame {
 		
 		clinicNameField = new JTextField();
 		clinicNameField.setColumns(10);
-		clinicNameField.setBounds(261, 31, 140, 35);
+		clinicNameField.setBounds(261, 52, 140, 35);
 		clinic_panel.add(clinicNameField);
 		
 		JLabel lblClinicName = new JLabel("Clinic Name");
 		lblClinicName.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
-		lblClinicName.setBounds(269, 6, 117, 24);
+		lblClinicName.setBounds(280, 29, 89, 24);
 		clinic_panel.add(lblClinicName);
 		
 		JButton add_clinic = new JButton("Add");
@@ -342,16 +353,99 @@ public class DirectorGUI extends JFrame {
 			}
 			
 		});
-		add_clinic.setBounds(261, 67, 140, 35);
+		add_clinic.setBounds(261, 86, 140, 35);
 		clinic_panel.add(add_clinic);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(407, 6, 276, 315);
-		clinic_panel.add(scrollPane_1);
+		JScrollPane scrollWorker = new JScrollPane();
+		scrollWorker.setBounds(407, 6, 276, 334);
+		clinic_panel.add(scrollWorker);
+		
+		table_worker = new JTable();
+		scrollWorker.setViewportView(table_worker);
+		
+		JComboBox select_doc = new JComboBox();
+		select_doc.setBounds(257, 245, 150, 41);
+		for(int i = 0; i < director.getDoctorList().size(); i++) {
+			select_doc.addItem(new Item(director.getDoctorList().get(i).getId(), director.getDoctorList().get(i).getName()));
+		}
+		select_doc.addActionListener(e -> {
+			JComboBox c = (JComboBox) e.getSource();
+			Item item = (Item) c.getSelectedItem();
+		});
+		clinic_panel.add(select_doc);
+		
+		JButton add_worker = new JButton("Add");
+		add_worker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selRow = table_clinic.getSelectedRow();
+				if(selRow >= 0) {
+					String selClinic = table_clinic.getModel().getValueAt(selRow, 0).toString();
+					int selClinicID = Integer.parseInt(selClinic);
+					Item doctorItem = (Item) select_doc.getSelectedItem();
+					try {
+						boolean control = director.addWorker(doctorItem.getKey(),selClinicID);
+						if(control) {
+							Helper.showMsg("success");
+							DefaultTableModel clearModel = (DefaultTableModel) table_worker.getModel();
+							clearModel.setRowCount(0);
+							for(int i=0; i < director.getClinicDoctorList(selClinicID).size(); i++){
+								workerData[0] = director.getClinicDoctorList(selClinicID).get(i).getId();
+								workerData[1] = director.getClinicDoctorList(selClinicID).get(i).getName();
+								workerModel.addRow(workerData);		
+							}
+							table_worker.setModel(workerModel);
+						}else {
+							Helper.showMsg("error");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					Helper.showMsg("Please select an clinic");
+				}
+			}
+		});
+		add_worker.setBounds(261, 281, 140, 35);
+		clinic_panel.add(add_worker);
+		
+		JLabel lblClinicName_1 = new JLabel("Clinic Name");
+		lblClinicName_1.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
+		lblClinicName_1.setBounds(267, 156, 89, 24);
+		clinic_panel.add(lblClinicName_1);
+		
+		JButton workerSelect = new JButton("Select");
+		workerSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selRow = table_clinic.getSelectedRow();
+				if(selRow >= 0) {
+					String selClinic = table_clinic.getModel().getValueAt(selRow, 0).toString();
+					int selClinicID = Integer.parseInt(selClinic);
+					DefaultTableModel clearModel = (DefaultTableModel) table_worker.getModel();
+					clearModel.setRowCount(0);
+					
+					try {
+						for(int i=0; i < director.getClinicDoctorList(selClinicID).size(); i++){
+							workerData[0] = director.getClinicDoctorList(selClinicID).get(i).getId();
+							workerData[1] = director.getClinicDoctorList(selClinicID).get(i).getName();
+							workerModel.addRow(workerData);
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					table_worker.setModel(workerModel);
+				}else {
+					Helper.showMsg("Please select an clinic");
+				}
+			}
+		});
+		workerSelect.setBounds(261, 179, 140, 35);
+		clinic_panel.add(workerSelect);
 		
 	}
 	
-	public void updateDoctorModel() {
+	public void updateDoctorModel() throws SQLException {
 		DefaultTableModel clearModel = (DefaultTableModel) doc_table.getModel();
 		clearModel.setRowCount(0);
 		for(int i = 0; i < director.getDoctorList().size(); i++) {
