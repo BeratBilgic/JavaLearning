@@ -127,7 +127,6 @@ public class Clinic {
 		}finally {
 			try {
 				st.close();
-				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

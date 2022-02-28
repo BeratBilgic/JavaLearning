@@ -3,7 +3,9 @@ package Model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Helper.DBconnection;
 
@@ -28,6 +30,66 @@ public class Appointment {
 	}
 	
 	public Appointment() {}
+	
+	public ArrayList<Appointment> getPatientList(int patient_id) throws SQLException{
+		ArrayList<Appointment> list = new ArrayList<>();
+		Appointment obj;
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT * FROM appointment WHERE patient_id = " + patient_id);
+			while(rs.next()) {
+				obj = new Appointment();
+				obj.setId(rs.getInt("id"));
+				obj.setDoctor_id(rs.getInt("doctor_id"));
+				obj.setDoctor_name(rs.getString("doctor_name"));
+				obj.setPatient_id(rs.getInt("patient_id"));
+				obj.setPatient_name(rs.getString("patient_name"));
+				obj.setApp_date(rs.getString("app_date"));
+				list.add(obj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				st.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<Appointment> getDoctorList(int doctor_id) throws SQLException{
+		ArrayList<Appointment> list = new ArrayList<>();
+		Appointment obj;
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT * FROM appointment WHERE doctor_id = " + doctor_id);
+			while(rs.next()) {
+				obj = new Appointment();
+				obj.setId(rs.getInt("id"));
+				obj.setDoctor_id(rs.getInt("doctor_id"));
+				obj.setDoctor_name(rs.getString("doctor_name"));
+				obj.setPatient_id(rs.getInt("patient_id"));
+				obj.setPatient_name(rs.getString("patient_name"));
+				obj.setApp_date(rs.getString("app_date"));
+				list.add(obj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				st.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	
 	public int getId() {
 		return id;

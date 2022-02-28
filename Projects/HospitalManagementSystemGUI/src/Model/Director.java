@@ -42,6 +42,7 @@ public class Director extends User {
 			preparedStatement.setString(1, tcno);
 			preparedStatement.setString(2,	password);
 			preparedStatement.setString(3, name);
+			preparedStatement.setInt(4, 2);
 			preparedStatement.executeUpdate();
 			key = true;
 		} catch (Exception e) {

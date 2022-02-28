@@ -34,6 +34,13 @@ public class PatientGUI extends JFrame {
 	private Whour whour = new Whour();
 	private DefaultTableModel whourModel;
 	private Object[] whourData = null;
+	private int selectDocId = 0;
+	private String selectDocName = null;
+	private JTable table_appoint;
+	private DefaultTableModel appointModel;
+	private Object[] appointData = null;
+	private Appointment appoint = new Appointment();
+	
 
 	/**
 	 * Launch the application.
@@ -71,6 +78,20 @@ public class PatientGUI extends JFrame {
 		whourModel.setColumnIdentifiers(colWhour);
 		whourData = new Object[2];
 		
+		appointModel = new DefaultTableModel();
+		Object[] colAppoint = new Object[3];
+		colAppoint[0] = "ID";
+		colAppoint[1] = "Doctor";
+		colAppoint[2] = "Date";
+		appointModel.setColumnIdentifiers(colAppoint);
+		appointData = new Object[3];
+		for(int i = 0; i < appoint.getPatientList(patient.getId()).size(); i++) {
+			appointData[0] = appoint.getPatientList(patient.getId()).get(i).getId();
+			appointData[1] = appoint.getPatientList(patient.getId()).get(i).getDoctor_name();
+			appointData[2] = appoint.getPatientList(patient.getId()).get(i).getApp_date();
+			appointModel.addRow(appointData);
+		}
+		
 		setResizable(false);
 		setTitle("Hospital Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,7 +126,7 @@ public class PatientGUI extends JFrame {
 		Appointment_panel.setLayout(null);
 		
 		JScrollPane scrollDoc = new JScrollPane();
-		scrollDoc.setBounds(6, 35, 269, 305);
+		scrollDoc.setBounds(6, 35, 256, 305);
 		Appointment_panel.add(scrollDoc);
 		
 		table_doc = new JTable(doctorModel);
@@ -119,11 +140,11 @@ public class PatientGUI extends JFrame {
 		
 		JLabel lblNewLabel_2 = new JLabel("Clinic name");
 		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(283, 14, 110, 16);
+		lblNewLabel_2.setBounds(283, 41, 110, 16);
 		Appointment_panel.add(lblNewLabel_2);
 		
 		JComboBox select_clinic = new JComboBox();
-		select_clinic.setBounds(275, 35, 135, 28);
+		select_clinic.setBounds(262, 62, 148, 28);
 		select_clinic.addItem("Select Clinic");
 		for(int i = 0 ; i < clinic.getClinicList().size() ; i++) {
 			select_clinic.addItem(new Item(clinic.getClinicList().get(i).getId(), clinic.getClinicList().get(i).getName()));
@@ -159,7 +180,7 @@ public class PatientGUI extends JFrame {
 		
 		JLabel lblClinicName_1 = new JLabel("Select Doctor");
 		lblClinicName_1.setFont(new Font("Dialog", Font.PLAIN, 16));
-		lblClinicName_1.setBounds(283, 111, 110, 24);
+		lblClinicName_1.setBounds(283, 133, 110, 24);
 		Appointment_panel.add(lblClinicName_1);
 		
 		JButton workerSelect = new JButton("Select");
@@ -182,13 +203,16 @@ public class PatientGUI extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					table_whour.setModel(whourModel);
+					selectDocId = selId;
+					selectDocName = table_doc.getModel().getValueAt(row, 1).toString();
 					
 				}else {
 					Helper.showMsg("Please select a doctor");
 				}
 			}
 		});
-		workerSelect.setBounds(275, 137, 135, 35);
+		workerSelect.setBounds(262, 160, 148, 35);
 		Appointment_panel.add(workerSelect);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Doctor List");
@@ -209,13 +233,69 @@ public class PatientGUI extends JFrame {
 		lblNewLabel_1_2.setBounds(416, 14, 180, 16);
 		Appointment_panel.add(lblNewLabel_1_2);
 		
-		JButton btnMakeAnAppointment = new JButton("Make an appointment");
-		btnMakeAnAppointment.setBounds(275, 224, 135, 35);
-		Appointment_panel.add(btnMakeAnAppointment);
+		JButton btnMakeAppoint = new JButton("Make an appointment");
+		btnMakeAppoint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selRow = table_whour.getSelectedRow();
+				if(selRow >= 0) {
+					String date = table_whour.getModel().getValueAt(selRow, 1).toString();
+					try {
+						boolean control = patient.addAppointment(selectDocId, patient.getId(), selectDocName, patient.getName(), date);
+						if(control) {
+							Helper.showMsg("success");
+							patient.updateWhourStatus(selectDocId, date);
+							updateWhourModel(selectDocId);
+							updateAppointModel(patient.getId());
+						}else {
+							Helper.showMsg("error");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					Helper.showMsg("Please enter a valid date");
+				}
+			}
+		});
+		btnMakeAppoint.setBounds(262, 272, 148, 44);
+		Appointment_panel.add(btnMakeAppoint);
 		
-		JLabel lblClinicName_1_1 = new JLabel("Select Doctor");
-		lblClinicName_1_1.setFont(new Font("Dialog", Font.PLAIN, 16));
-		lblClinicName_1_1.setBounds(283, 198, 110, 24);
+		JLabel lblClinicName_1_1 = new JLabel("Make an appointment");
+		lblClinicName_1_1.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lblClinicName_1_1.setBounds(268, 245, 136, 24);
 		Appointment_panel.add(lblClinicName_1_1);
+		
+		JPanel myAppointments_panel = new JPanel();
+		tabbedPane.addTab("My appointments", null, myAppointments_panel, null);
+		myAppointments_panel.setLayout(null);
+		
+		JScrollPane scroll_appoint = new JScrollPane();
+		scroll_appoint.setBounds(6, 6, 677, 334);
+		myAppointments_panel.add(scroll_appoint);
+		
+		table_appoint = new JTable(appointModel);
+		scroll_appoint.setViewportView(table_appoint);
+	}
+	
+	public void updateWhourModel(int doctor_id) throws SQLException {
+		DefaultTableModel clearModel = (DefaultTableModel) table_whour.getModel();
+		clearModel.setRowCount(0);
+		for(int i = 0 ; i < whour.getWhourList(doctor_id).size(); i++) {
+			whourData[0] = whour.getWhourList(doctor_id).get(i).getId();
+			whourData[1] = whour.getWhourList(doctor_id).get(i).getWdate();
+			whourModel.addRow(whourData);
+		}
+	}
+	
+	public void updateAppointModel(int patient_id) throws SQLException {
+		DefaultTableModel clearModel = (DefaultTableModel) table_appoint.getModel();
+		clearModel.setRowCount(0);
+		for(int i = 0 ; i < appoint.getPatientList(patient_id).size(); i++) {
+			appointData[0] = appoint.getPatientList(patient_id).get(i).getId();
+			appointData[1] = appoint.getPatientList(patient_id).get(i).getDoctor_name();
+			appointData[2] = appoint.getPatientList(patient_id).get(i).getApp_date();
+			appointModel.addRow(appointData);
+		}
 	}
 }
