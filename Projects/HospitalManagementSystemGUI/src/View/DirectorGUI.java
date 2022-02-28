@@ -57,6 +57,7 @@ public class DirectorGUI extends JFrame {
 
 	public DirectorGUI(Director director) throws SQLException {
 		
+		//doctor model
 		doctorModel = new DefaultTableModel();
 		Object[] colDoctorName = new Object[4];
 		colDoctorName[0] = "ID";
@@ -73,6 +74,7 @@ public class DirectorGUI extends JFrame {
 			doctorModel.addRow(doctorData);
 		}
 		
+		//clinic model
 		clinicModel = new DefaultTableModel();
 		Object[] colClinicName = new Object[2];
 		colClinicName[0] = "ID";
@@ -85,6 +87,7 @@ public class DirectorGUI extends JFrame {
 			clinicModel.addRow(clinicData);
 		}
 		
+		//worker model
 		workerModel = new DefaultTableModel();
 		Object[] colWorker = new Object[2];
 		colWorker[0] = "ID";
@@ -129,7 +132,7 @@ public class DirectorGUI extends JFrame {
 		
 		JLabel lblNewLabel_name = new JLabel("Name Surname");
 		lblNewLabel_name.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
-		lblNewLabel_name.setBounds(512, 6, 117, 24);
+		lblNewLabel_name.setBounds(512, 6, 135, 24);
 		doc_mang_panel.add(lblNewLabel_name);
 		
 		JLabel lblNewLabel_tcno = new JLabel("TC Number");
@@ -330,7 +333,7 @@ public class DirectorGUI extends JFrame {
 		
 		JLabel lblClinicName = new JLabel("Clinic Name");
 		lblClinicName.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
-		lblClinicName.setBounds(280, 29, 89, 24);
+		lblClinicName.setBounds(280, 29, 108, 24);
 		clinic_panel.add(lblClinicName);
 		
 		JButton add_clinic = new JButton("Add");
@@ -411,7 +414,7 @@ public class DirectorGUI extends JFrame {
 		
 		JLabel lblClinicName_1 = new JLabel("Clinic Name");
 		lblClinicName_1.setFont(new Font("Book Antiqua", Font.PLAIN, 16));
-		lblClinicName_1.setBounds(267, 156, 89, 24);
+		lblClinicName_1.setBounds(267, 156, 108, 24);
 		clinic_panel.add(lblClinicName_1);
 		
 		JButton workerSelect = new JButton("Select");

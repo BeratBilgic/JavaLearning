@@ -14,6 +14,8 @@ public class Helper {
 		case "success":
 			msg = "Transaction successful";
 			break;
+		case "error":
+			msg = "Something went wrong";
 		default:
 			msg = str;
 		}

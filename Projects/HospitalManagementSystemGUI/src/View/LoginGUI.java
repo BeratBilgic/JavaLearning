@@ -86,6 +86,13 @@ public class LoginGUI extends JFrame {
 		patient_panel.add(btnSignIn);
 		
 		JButton btnRegister = new JButton("Register");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterGUI registerGUI = new RegisterGUI();
+				registerGUI.setVisible(true);
+				dispose();
+			}
+		});
 		btnRegister.setBounds(88, 118, 131, 35);
 		patient_panel.add(btnRegister);
 		
