@@ -76,6 +76,29 @@ public class Patient extends User {
 		else
 			return false;
 	}
+	
+	public boolean deleteAppointment(int doctor_id, String app_date) throws SQLException {	
+		boolean key = false;
+		try {
+			st = con.createStatement();
+			String query1 = "DELETE FROM appointment WHERE app_date='" + app_date + "'";
+			String query2 = "UPDATE whour SET status = ? WHERE doctor_id = ? AND wdate = ?";	
+			preparedStatement = con.prepareStatement(query1);
+			preparedStatement.executeUpdate();
+			preparedStatement = con.prepareStatement(query2);
+			preparedStatement.setInt(1, 1);
+			preparedStatement.setInt(2, doctor_id);
+			preparedStatement.setString(3, app_date);
+			preparedStatement.executeUpdate();
+			key = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(key == true)
+			return true;
+		else
+			return false;
+	}
 
 	public boolean updateWhourStatus(int doctor_id, String wdate) throws SQLException {
 		boolean key = false;
