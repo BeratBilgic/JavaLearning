@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class DBconnection {
 	Connection c = null;
-	String url = "jdbc:sqlite:/Users/beratbilgic/Desktop/GitHub/JavaOOP/Projects/HospitalManagementSystemGUI/database/hospital.db";
+	String url = "jdbc:sqlite:/Users/beratbilgic/Desktop/GitHub/JavaLearning/Projects/HospitalManagementSystemGUI/database/hospital.db";
 	
 	public DBconnection() {
 	}
