@@ -14,7 +14,7 @@ public class TestSupport {
     public static final String ACCOUNT_API_ENDPOINT = "/v1/account/";
 
     public Instant getCurrentInstant(){
-        String instantExpected = "2021-06-15T10:15:30Z";
+        String instantExpected = "2022-07-20T10:15:30Z";
         Clock clock = Clock.fixed(Instant.parse(instantExpected), Clock.systemDefaultZone().getZone());
 
         return Instant.now(clock);

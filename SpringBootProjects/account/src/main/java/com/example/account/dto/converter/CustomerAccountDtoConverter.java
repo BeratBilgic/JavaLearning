@@ -20,10 +20,10 @@ public class CustomerAccountDtoConverter {
         return new CustomerAccountDto(
                 Objects.requireNonNull(from.getId()),
                 from.getBalance(),
-                from.getCreationDate(),
                 from.getTransaction()
                         .stream()
                         .map(transactionDtoConverter::convert)
-                        .collect(Collectors.toSet()));
+                        .collect(Collectors.toSet()),
+                from.getCreationDate());
     }
 }
