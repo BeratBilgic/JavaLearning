@@ -8,7 +8,6 @@ import com.example.account.model.Customer;
 import com.example.account.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.Optional;
