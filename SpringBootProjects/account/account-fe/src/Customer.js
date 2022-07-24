@@ -1,7 +1,6 @@
 import logo from './logo.svg';
-
-import React, { Component }  from 'react';
 import './App.css';
+import {Component} from "react";
 import {Link, withRouter} from 'react-router-dom';
 import {Button, Container} from 'reactstrap';
 

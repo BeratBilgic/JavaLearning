@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Link, withRouter } from 'react-router-dom';
-import React, { Component }  from 'react';
+import {Component} from "react";
 import {Button, Form, FormGroup, Label, Input} from "reactstrap";
 
 class Account extends Component {
