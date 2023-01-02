@@ -28,7 +28,9 @@ public class JavaJwtDemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		userService.saveRepository(new User(null,"admin",
+		userService.saveRepository(new User(null,"admin@email",
 				bCryptPasswordEncoder.encode("1234"), Role.ADMIN));
+		userService.saveRepository(new User(null,"user@email",
+				bCryptPasswordEncoder.encode("1234"), Role.USER));
 	}
 }

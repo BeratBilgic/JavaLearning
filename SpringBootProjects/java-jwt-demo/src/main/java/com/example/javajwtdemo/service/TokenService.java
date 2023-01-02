@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.javajwtdemo.exception.GenericException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
+@Slf4j
 public class TokenService {
     @Value("${jwt-variables.KEY}")
     private String KEY;
@@ -44,8 +46,10 @@ public class TokenService {
         try {
             return verifier.verify(token);
         } catch (Exception e) {
-            throw GenericException.builder().httpStatus(HttpStatus.BAD_REQUEST).errorMessage(e.getMessage()).build();
+            throw GenericException.builder()
+                    .httpStatus(HttpStatus.BAD_REQUEST)
+                    .errorMessage(e.getMessage())
+                    .build();
         }
     }
-
 }

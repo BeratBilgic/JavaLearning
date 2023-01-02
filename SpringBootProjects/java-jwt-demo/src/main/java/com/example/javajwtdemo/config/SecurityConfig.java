@@ -25,30 +25,33 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+
     private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
 
     @Bean
-    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .headers().frameOptions().disable()
+                .and()
                 .csrf().disable()
                 .cors().and()
-                .authorizeRequests((auth) -> {
-                            auth.antMatchers("/test/admin").hasAuthority("ADMIN");
-                            auth.antMatchers("/test/user").hasAnyAuthority("ADMIN", "USER");
-                            auth.anyRequest().authenticated();
-                        })
+                .authorizeRequests(auth -> {
+                    auth.antMatchers("/test/admin").hasAuthority("ADMIN");
+                    auth.antMatchers("/test/user").hasAnyAuthority("ADMIN", "USER");
+                    auth.anyRequest().authenticated();
+                })
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
@@ -59,15 +62,13 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/test/public", "/h2-console/**",
-                "/api/v1/auth/login","/api/v1/auth/signup","/**");
+                "/api/v1/auth/login", "/api/v1/auth/signup");
     }
-
     @Bean
-    public WebMvcConfigurer corsConfigurer(){
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {

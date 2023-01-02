@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -33,11 +35,14 @@ public class AuthService {
                     .user(userService.getUserByUsername(request.getUsername()))
                     .build();
         }catch (final BadCredentialsException badCredentialsException){
-            throw GenericException.builder().httpStatus(HttpStatus.NOT_FOUND)
-                    .errorMessage("Invalid Username or Password").build();
+            throw GenericException.builder()
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .errorMessage("Invalid Username or Password")
+                    .build();
         }
     }
 
+    @Transactional
     public UserDto signup(SignUpRequest signUpRequest){
         var isAllReadyRegistered = userService.existsByUsername(signUpRequest.getUsername());
 

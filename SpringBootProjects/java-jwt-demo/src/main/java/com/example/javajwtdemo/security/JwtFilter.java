@@ -40,22 +40,20 @@ public class JwtFilter extends OncePerRequestFilter {
             if (!token.isBlank()){
                 username = tokenService.verifyJWT(token).getSubject();
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource()
                         .buildDetails(request));
+
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
+
             filterChain.doFilter(request, response);
         }catch (Exception e){
             log.error("error -> " + e.getMessage());
-
-            response.setContentType("application/json");
-            Map<String, String> errors = new HashMap<>();
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            errors.put("error", e.getMessage());
-            ObjectMapper mapper = new ObjectMapper();
-            response.getWriter().write(mapper.writeValueAsString(errors));
+            sendError(response, e);
         }
 
     }
@@ -66,5 +64,15 @@ public class JwtFilter extends OncePerRequestFilter {
             return "";
         }
         return header.substring(7);
+    }
+
+
+    private void sendError(HttpServletResponse res, Exception e) throws IOException {
+        res.setContentType("application/json");
+        Map<String, String> errors = new HashMap<>();
+        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        errors.put("error", e.getMessage());
+        ObjectMapper mapper = new ObjectMapper();
+        res.getWriter().write(mapper.writeValueAsString(errors));
     }
 }
