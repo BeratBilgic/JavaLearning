@@ -14,6 +14,7 @@
         <module>spring-elasticsearch</module>
         <module>spring-swagger</module>
         <module>spring-rabbitmq</module>
+        <module>spring-aop</module>
     </modules>
 
     <properties>
