@@ -16,6 +16,7 @@
         <module>spring-rabbitmq</module>
         <module>spring-aop</module>
         <module>spring-dockerization</module>
+        <module>spring-graphql</module>
     </modules>
 
     <properties>
