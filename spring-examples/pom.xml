@@ -18,6 +18,7 @@
         <module>spring-dockerization</module>
         <module>spring-graphql</module>
         <module>spring-rest-template</module>
+        <module>spring-redis-cache</module>
     </modules>
 
     <properties>
