@@ -19,6 +19,7 @@
         <module>spring-graphql</module>
         <module>spring-rest-template</module>
         <module>spring-redis-cache</module>
+        <module>spring-websocket</module>
     </modules>
 
     <properties>
