@@ -20,6 +20,7 @@
         <module>spring-rest-template</module>
         <module>spring-redis-cache</module>
         <module>spring-websocket</module>
+        <module>spring-pagination</module>
     </modules>
 
     <properties>
