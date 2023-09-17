@@ -22,6 +22,7 @@
         <module>spring-websocket</module>
         <module>spring-pagination</module>
         <module>spring-events</module>
+        <module>spring-mongo-gridfs-fileupload</module>
     </modules>
 
     <properties>
