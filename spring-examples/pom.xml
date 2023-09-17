@@ -23,6 +23,7 @@
         <module>spring-pagination</module>
         <module>spring-events</module>
         <module>spring-mongo-gridfs-fileupload</module>
+        <module>spring-versioning</module>
     </modules>
 
     <properties>
