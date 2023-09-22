@@ -24,6 +24,7 @@
         <module>spring-events</module>
         <module>spring-mongo-gridfs-fileupload</module>
         <module>spring-versioning</module>
+        <module>spring-kafka</module>
     </modules>
 
     <properties>
