@@ -25,6 +25,7 @@
         <module>spring-mongo-gridfs-fileupload</module>
         <module>spring-versioning</module>
         <module>spring-kafka</module>
+        <module>spring-flyway</module>
     </modules>
 
     <properties>
