@@ -1,17 +1,14 @@
-package com.example.effectivejava.Item08;
+package com.example.effectivejava.Item09;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Scanner;
 
-public class Item08 {
+public class Item09 {
     private static final int BUFFER_SIZE = 0;
 
     public static void main(String[] args) throws IOException {
