@@ -1,13 +1,10 @@
 package com.example.effectivejava.Item10;
 
-import com.example.effectivejava.Item10.violates_transitivity.ColorPoint;
-import com.example.effectivejava.Item10.violates_transitivity.ColorPointInherit;
-import com.example.effectivejava.Item10.violates_transitivity.Point;
-
-import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Item09 {
+public class Item10 {
     public static void main(String[] args) throws IOException {
 /*
 The equals method implements an equivalence relation. It has these properties:
@@ -73,5 +70,16 @@ return true or consistently return false, provided no information used in equals
         System.out.println(tco1.equals(tco2)); //true
         System.out.println(tco2.equals(tco1)); //true
         System.out.println(tco1.equals(null)); //false
+
+        List<TestClass> l1 = new ArrayList<>();
+        TestClass tcl = new TestClass(1, 2);
+        l1.add(tcl);
+        System.out.println(l1.contains(new TestClass(1, 2)));//false
+
+        List<TestClassOverride> l2 = new ArrayList<>();
+        TestClassOverride tcol = new TestClassOverride(1,2);
+        l2.add(tcol);
+        System.out.println(l2.contains(new TestClassOverride(1,2)));//true
+
     }
 }
